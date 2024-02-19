@@ -53,6 +53,10 @@
 </head>
 <body>
 <h1>Articles</h1>
+<form>
+    <input class="form-control" type="search"
+        name="search" placeholder="Begin Typing to search blog">
+</form>
 <div id="articles">
     {% for article in page_obj %}
     <div class="article">
