@@ -1,0 +1,17 @@
+    {% for article in page_obj %}
+    <div class="article">
+        <h2>{{ article.title }}</h2>
+        <a class="image-container" href="{{ article.photo_url }}">
+            <img width="300" height="300" src="{{ article.photo_url }}" alt="A sample image"/>
+        </a>
+        <p>{{ article.content }}</p>
+
+        {% if page_obj.has_next and forloop.last %}
+        <span hx-get="{% url 'articles' %}?page={{ page_obj.next_page_number }}"
+              hx-swap="beforeend" hx-target="#articles" hx-select=".article"
+              hx-trigger="revealed">
+            </span>
+        {% endif %}
+
+    </div>
+    {% endfor %}

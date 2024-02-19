@@ -49,33 +49,43 @@
         .article p {
             text-align: justify;
         }
+        h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .htmx-indicator {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    form {
+        position: relative;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
     </style>
 </head>
 <body>
 <h1>Articles</h1>
+<h3>
+    <span class="htmx-indicator">
+      ...
+   </span>
+</h3>
 <form>
     <input class="form-control" type="search"
-        name="search" placeholder="Begin Typing to search blog">
+        name="search" placeholder="Begin Typing to search blog"
+        hx-get="/search/results/"
+           hx-trigger="keyup changed, search"
+           hx-target="#articles"
+           hx-indicator=".htmx-indicator">
 </form>
 <div id="articles">
-    {% for article in page_obj %}
-    <div class="article">
-        <h2>{{ article.title }}</h2>
-        <a class="image-container" href="{{ article.photo_url }}">
-            <img width="300" height="300" src="{{ article.photo_url }}" alt="A sample image"/>
-        </a>
-        <p>{{ article.content }}</p>
-
-        {% if page_obj.has_next and forloop.last %}
-        <span hx-get="{% url 'articles' %}?page={{ page_obj.next_page_number }}"
-              hx-swap="beforeend" hx-target="#articles" hx-select=".article"
-              hx-trigger="revealed">
-            </span>
-        {% endif %}
-
-    </div>
-    {% endfor %}
-
+    {% include 'search_results.html' %}
 </div>
 
 
